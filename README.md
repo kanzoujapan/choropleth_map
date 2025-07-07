@@ -1,60 +1,45 @@
-# 📍 東京地域 人口 Choropleth Map
+# 🗾 東京地域 人口 Choropleth Map
 
-このプロジェクトは、東京都内の市区町村ごとの人口データを視覚的に表示する **Choropleth Map（濃淡地図）** を作成したものです。  
-**Leaflet.js** と **D3.js**, **GeoJSON** を使用し、人口密度を色の濃淡で表現しています。
+このプロジェクトは、東京都全域の市区町村ごとの人口分布を可視化した **Choropleth Map（コロプレスマップ）** を作成するものです。  
+地理情報は `GeoJSON` ファイル、人口データは `CSV` ファイルから読み込み、`Leaflet.js` を中心としたWeb技術で描画されています。
 
 ---
 
-## 🗂 ファイル構成
+## 📂 使用ファイル
 
-| ファイル名 | 内容 |
+| ファイル名 | 用途 |
 |------------|------|
-| `tokyo_population_map.html` | 地図表示のメインHTMLファイル |
-| `tokyo.geojson` | 東京都の地理情報を含む GeoJSON ファイル |
-| `tokyo.csv` | 各地域の人口データ（例：`世田谷区,939099`） |
-| `Screenshot 2025-07-07 at 21.02.12.png` | 実行結果のスクリーンショット |
-
-※ 上記のファイルはすべて **同一ディレクトリに配置**してください。
-
----
-
-## 🔧 使用ライブラリ
-
-- [Leaflet.js](https://leafletjs.com/) - 地図描画用ライブラリ
-- [D3.js](https://d3js.org/) - データ読み込みおよび処理
-- GeoJSON - 地理情報フォーマット
+| `tokyo_population_map.html` | 地図表示用のHTMLファイル（Foliumで自動生成） |
+| `tokyo.geojson` | 東京都の地理情報（市区町村の境界） |
+| `tokyo.csv` | 各地域の人口データ（CSV形式） |
+| `colonymap_screenshot.png` | 実行結果のスクリーンショット |
+| `colonymap.py` | 地図生成のPythonスクリプト |
 
 ---
 
-## 🚀 使い方
+## 🔧 使用ライブラリと技術
 
-### 方法①：ブラウザで直接開く（簡易）
-
-1. このリポジトリを clone または zip でダウンロード
-2. `tokyo_population_map.html` をダブルクリックでブラウザで開く
-
-※ 一部のブラウザでは `fetch()` によるローカルファイル読み込み制限があるため、下記の「方法②」を推奨
+- **Folium**：PythonでLeaflet地図を生成するライブラリ
+- **Leaflet.js**：Webマップ表示のためのJavaScriptライブラリ
+- **GeoJSON**：地理空間情報の表現フォーマット
+- **pandas / json**：データ処理
 
 ---
 
-### 方法②：ローカルサーバーで起動（推奨）
+## 🚀 実行方法
+
+1. 必要なファイル（`tokyo.csv`, `tokyo.geojson`, `colonymap.py`）を同一フォルダに置く
+2. 以下のコマンドでスクリプトを実行：
 
 ```bash
-cd /path/to/project
-python3 -m http.server 8000
+python colonymap.py
 ```
 
-その後、ブラウザで以下のURLにアクセス：
-
-```
-http://localhost:8000/tokyo_population_map.html
-```
+3. 実行後に `tokyo_population_map.html` が生成されます。ダブルクリックでブラウザ表示可。
 
 ---
 
-## 📊 データ形式について
-
-### `tokyo.csv`
+## 📊 CSV データ形式（tokyo.csv）
 
 ```csv
 地域,人口
@@ -63,12 +48,13 @@ http://localhost:8000/tokyo_population_map.html
 ...
 ```
 
-- `tokyo.geojson` の地域名と一致している必要があります（例：「世田谷区」）
+- ヘッダーは `"地域","人口"` の順。
+- 地域名は `tokyo.geojson` の `"ward_ja"` フィールドと一致している必要があります。
 
 ---
 
-## 🗺️ サンプル画像
+## 🖼️ 可視化サンプル
 
-以下は実際に生成された Choropleth Map のスクリーンショットです：
+以下は実際に生成された Choropleth Map の例です：
 
-![choropleth map](Screenshot%202025-07-07%20at%2021.02.12.png)
+![東京人口コロプレスマップ](colonymap_screenshot.png)
